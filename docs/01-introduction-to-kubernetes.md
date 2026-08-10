@@ -59,11 +59,9 @@
     - [Section 4: Storage](#section-4)
     - [Section 5: Production Kubernetes](#section-5)
 
-- [Final Takeaway](#final-takeaway)
+- [Key Takeaways](#key-takeaways)
 
 ## 1. Introduction to Kubernetes
-
-Welcome to the Kubernetes journey.
 
 Before starting Kubernetes, we need to understand one important thing:
 
@@ -217,9 +215,9 @@ does not mean we understand containers.
 
 We need to understand the fundamentals.
 
-## Container Fundamentals Required Before Kubernetes
+### Container Fundamentals Required Before Kubernetes
 
-### 1. What Are Containers?
+#### 1. What Are Containers?
 
 We should understand:
 
@@ -228,13 +226,13 @@ We should understand:
 * Difference between containers and virtual machines
 * Container lifecycle
 
-### 2. Container Isolation
+#### 2. Container Isolation
 
 Containers provide isolation using Linux kernel features.
 
 Important concepts:
 
-#### Namespace Isolation
+Namespace Isolation
 
 Namespaces provide isolation between processes.
 
@@ -244,7 +242,7 @@ Examples:
 * Network isolation
 * File system isolation
 
-#### Resource Isolation
+Resource Isolation
 
 Linux uses:
 
@@ -257,7 +255,7 @@ to control:
 * Memory
 * Storage
 
-### 3. Why Containers Are Lightweight
+#### 3. Why Containers Are Lightweight
 
 Virtual machines:
 
@@ -287,7 +285,7 @@ Therefore:
 * Less resource usage
 * Higher density
 
-### 4. Container Security
+#### 4. Container Security
 
 Before Kubernetes, we should understand:
 
@@ -433,10 +431,10 @@ Example:
 
         Master Node
               |
-  ---------------------------
- |            |              |
+   ---------------------------
+  |            |              |
 Node 1       Node 2         Node 3
- |
+  |
 Pods
 ```
 
@@ -476,9 +474,7 @@ Example:
 
 ```
 Application Container
-
         X
-
 Container stopped
 ```
 
@@ -562,9 +558,7 @@ Example:
 
 ```
 Container 1
-
 to
-
 Container 10
 ```
 
@@ -673,14 +667,14 @@ It usually runs as a cluster.
 A Kubernetes cluster contains:
 
 ```
-Kubernetes Cluster
-          |
-          |
-    Control Plane
-    (Master Node)
-          |
-  --------------------
- |        |           |
+  Kubernetes Cluster
+           |
+           |
+     Control Plane
+     (Master Node)
+           |
+   --------------------
+  |        |          |
 Worker   Worker     Worker
 Node     Node       Node
 ```
@@ -816,7 +810,7 @@ Production Kubernetes
 * Helm
 * Argo CD
 
-## Final Takeaway
+## Key Takeaways
 
 Kubernetes is not difficult.
 
@@ -837,22 +831,6 @@ The four major problems Kubernetes solves:
 
 Once these foundations are clear, learning Kubernetes components becomes much easier.
 
-### End of Section 01
-
 ## Next Section
 
-### Kubernetes Architecture Deep Dive
-
-Topics:
-
-* Kubernetes Cluster Architecture
-* Control Plane Components
-* Worker Node Components
-* API Server
-* Scheduler
-* Controller Manager
-* etcd
-* kubelet
-* kube-proxy
-* Complete Request Flow in Kubernetes
-* Production Architecture Overview
+**[Kubernetes Architecture — Understanding the Control Plane and Data Plane](02-kubernetes-architecture.md)**

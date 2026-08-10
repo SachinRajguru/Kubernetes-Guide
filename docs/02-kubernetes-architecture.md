@@ -11,24 +11,21 @@
 4. [Why Kubernetes Architecture Is Important](#4-why-kubernetes-architecture-is-important)
 5. [Kubernetes Architecture Overview](#5-kubernetes-architecture-overview)
 6. [Docker Container Lifecycle vs Kubernetes Pod Lifecycle](#6-docker-container-lifecycle-vs-kubernetes-pod-lifecycle)
-7. [Kubernetes Cluster Components](#7-kubernetes-cluster-components)
-8. [Worker Node (Data Plane) Components](#8-worker-node-data-plane-components)
+7. [Worker Node (Data Plane) Components](#7-worker-node-data-plane-components)
    - [kubelet](#kubelet)
    - [kube-proxy](#kube-proxy)
    - [Container Runtime](#container-runtime)
-9. [Control Plane Components](#9-control-plane-components)
+8. [Control Plane Components](#8-control-plane-components)
    - [API Server](#api-server)
    - [Scheduler](#scheduler)
    - [etcd](#etcd)
    - [Controller Manager](#controller-manager)
    - [Cloud Controller Manager](#cloud-controller-manager)
-10. [Complete Pod Creation Workflow](#10-complete-pod-creation-workflow)
-11. [End-to-End Request Flow](#11-end-to-end-request-flow)
-12. [Interview Questions](#12-interview-questions)
+9. [Complete Pod Creation Workflow](#9-complete-pod-creation-workflow)
+10. [End-to-End Request Flow](#11-end-to-end-request-flow)
+11. [Interview Questions](#12-interview-questions)
 
 - [Key Takeaways](#key-takeaways)
-
-- [Next Section](#next-section)
 
 ## 1. Introduction
 
@@ -512,7 +509,7 @@ It runs Kubernetes controllers that continuously reconcile the actual cluster st
 
 It is used when Kubernetes runs on cloud platforms to integrate with cloud services such as load balancers, storage, and networking.
 
-## 12. Key Takeaways
+## Key Takeaways
 
 * Kubernetes architecture is divided into the **Control Plane** and **Worker Nodes**.
 * Worker Nodes execute workloads using **kubelet**, **kube-proxy**, and a **Container Runtime**.
@@ -520,35 +517,8 @@ It is used when Kubernetes runs on cloud platforms to integrate with cloud servi
 * Every Kubernetes request starts with the API Server and ends with Pods running on Worker Nodes.
 * Understanding the architecture provides the foundation for learning advanced Kubernetes concepts.
 
-### End of Section 02
-
 ## Next Section
 
-### How to Manage Hundreds of Kubernetes Clusters with KOPS
+**[Kubernetes Cluster Provisioning with KOPS on AWS](03-kubernetes-cluster-provisioning-with-kops-on-aws.md)**
 
-In the previous two sections, we learned:
-
-* Why Kubernetes was created.
-* How a Kubernetes cluster is architected internally.
-
-The next logical question is:
-
-> How do organizations create and manage Kubernetes clusters in production?
-
-Creating a single cluster manually is manageable for learning and experimentation. However, enterprise environments often require multiple Kubernetes clusters across different environments, regions, or teams.
-
-Managing these clusters manually quickly becomes complex.
-
-In the next section, we will introduce **KOPS (Kubernetes Operations)**, one of the popular tools for provisioning and managing production-grade Kubernetes clusters on AWS.
-
-We will cover:
-
-* What KOPS is
-* Why KOPS was created
-* KOPS Architecture
-* KOPS vs kubeadm
-* Installing KOPS
-* Creating a Production-Style Kubernetes Cluster
-* Managing Multi-Node Clusters
-* Updating, Scaling, and Deleting Clusters
-* Production Best Practices
+*Kubernetes in Production — Cluster Lifecycle Management, Kubernetes Distributions, and Production Installation*
