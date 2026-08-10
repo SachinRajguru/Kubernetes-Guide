@@ -1,7 +1,7 @@
 
 ## 📄 `02-kubernetes-architecture.md`
 
-## Kubernetes Architecture — Understanding the Control Plane and Worker Nodes
+## Kubernetes Architecture — Understanding the Control Plane and Data Plane
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 4. [Why Kubernetes Architecture Is Important](#4-why-kubernetes-architecture-is-important)
 5. [Kubernetes Architecture Overview](#5-kubernetes-architecture-overview)
 6. [Docker Container Lifecycle vs Kubernetes Pod Lifecycle](#6-docker-container-lifecycle-vs-kubernetes-pod-lifecycle)
-7. [Worker Node (Data Plane) Components](#7-worker-node-data-plane-components)
+7. [Data Plane (Worker Node) Components](#7-data-plane-worker-node-components)
    - [kubelet](#kubelet)
    - [kube-proxy](#kube-proxy)
    - [Container Runtime](#container-runtime)
@@ -22,8 +22,8 @@
    - [Controller Manager](#controller-manager)
    - [Cloud Controller Manager](#cloud-controller-manager)
 9. [Complete Pod Creation Workflow](#9-complete-pod-creation-workflow)
-10. [End-to-End Request Flow](#11-end-to-end-request-flow)
-11. [Interview Questions](#12-interview-questions)
+10. [End-to-End Request Flow](#10-end-to-end-request-flow)
+11. [Interview Questions](#11-interview-questions)
 
 - [Key Takeaways](#key-takeaways)
 
@@ -113,31 +113,36 @@ That is the approach followed throughout this guide.
 
 ## 5. Kubernetes Architecture Overview
 
-A Kubernetes cluster is divided into two major parts.
+A Kubernetes cluster is divided into two major parts:
+
+- **Control Plane**
+- **Data Plane**
 
 ```text
-               Kubernetes Cluster
-
-           +-----------------------+
-           |     Control Plane     |
-           +-----------------------+
-                       |
-       -----------------------------------
-      |                |                  |
-+-----------+    +-----------+     +-----------+
-| Worker 1  |    | Worker 2  | ... | Worker N  |
-+-----------+    +-----------+     +-----------+
+                    Kubernetes Cluster
+                           |
+              +------------+------------+
+              |                         |
+       +--------------+          +--------------+
+       | Control Plane|          |   Data Plane |
+       +--------------+          +--------------+
+                                      |
+                         +------------+------------+
+                         |            |            |
+                    +---------+  +---------+  +---------+
+                    |Worker 1 |  |Worker 2 |  |Worker N |
+                    +---------+  +---------+  +---------+
 ```
 
 The cluster consists of:
 
-* **Control Plane (Master Node)** — Makes decisions and manages the cluster.
-* **Worker Nodes (Data Plane)** — Execute workloads by running application Pods.
+- **Control Plane** — Makes decisions and manages the cluster.
+- **Data Plane** — Consists of Worker Nodes that execute application workloads by running Pods.
 
 Think of it like an organization:
 
-* The **Control Plane** is the management team.
-* The **Worker Nodes** are the employees executing the assigned work.
+- The **Control Plane** is the management team.
+- The **Data Plane / Worker Nodes** are the employees executing the assigned work.
 
 ## 6. Docker Container Lifecycle vs Kubernetes Pod Lifecycle
 
@@ -173,7 +178,7 @@ It requires a **container runtime**, which is responsible for:
 * Managing container processes
 * Interacting with the Linux kernel
 
-Historically, Docker used a runtime known as **Docker Shim**.
+Historically, Kubernetes used a component called **dockershim** to integrate directly with Docker Engine. Dockershim was removed from Kubernetes in version 1.24.
 
 ## Kubernetes
 
@@ -185,6 +190,8 @@ User
 kubectl apply
    │
 API Server
+   │
+Scheduler
    │
 Worker Node
    │
@@ -199,25 +206,29 @@ Because Kubernetes manages applications across multiple machines, additional coo
 
 This coordination is handled by the Control Plane.
 
-## 7. Worker Node (Data Plane) Components
+## 7. Data Plane (Worker Node) Components
 
-Worker Nodes are responsible for executing application workloads.
+The Data Plane is responsible for executing application workloads.
 
-Every Worker Node contains three major components.
+The Data Plane consists of Worker Nodes. Each Worker Node contains three major components.
 
 ```text
 +--------------------------------------+
-|          Worker Node                 |
+|             Data Plane               |
 |                                      |
-|  kubelet                             |
-|  kube-proxy                          |
-|  Container Runtime                   |
+|             Worker Node              |
+|                                      |
+|  +--------------------------------+  |
+|  | kubelet                        |  |
+|  | kube-proxy                     |  |
+|  | Container Runtime              |  |
+|  +--------------------------------+  |
 +--------------------------------------+
 ```
 
 ### 7.1 kubelet
 
-The **kubelet** is the primary agent running on every Worker Node.
+The **kubelet** is the primary agent running on every Worker Node in the Data Plane.
 
 Its responsibilities include:
 
@@ -241,11 +252,12 @@ Kubernetes does **not** require Docker specifically.
 
 It supports any runtime that implements the **Container Runtime Interface (CRI)**.
 
-Common runtimes include:
+Common container runtimes include:
 
-* containerd
-* CRI-O
-* Docker Shim (historically)
+- containerd
+- CRI-O
+- Docker Engine
+- Mirantis Container Runtime
 
 This flexibility allows organizations to choose the runtime that best suits their infrastructure.
 
@@ -255,13 +267,13 @@ Applications running inside Pods need networking.
 
 kube-proxy provides networking functionality such as:
 
-* Assigning network rules.
-* Enabling Pod communication.
-* Implementing Service networking.
-* Providing basic load balancing.
-* Managing traffic routing using Linux networking (such as iptables or IPVS, depending on configuration).
+- Maintaining network rules on the node.
+- Implementing Kubernetes Service networking.
+- Routing traffic from Services to their backend endpoints.
+- Providing basic load balancing across Service endpoints.
+- Managing traffic using mechanisms such as iptables or IPVS, depending on configuration.
 
-Without kube-proxy, Pods would not communicate efficiently within the cluster.
+Without kube-proxy, Service traffic may not reach the correct Pods within the cluster.
 
 ## 8. Control Plane Components
 
@@ -271,13 +283,13 @@ Its major components are:
 
 ```text
 +-------------------------------------------+
-|             Control Plane                 |
+|              Control Plane                |
 |-------------------------------------------|
-| API Server                                |
-| Scheduler                                 |
-| etcd                                      |
-| Controller Manager                        |
-| Cloud Controller Manager (Optional)       |
+|  API Server                               |
+|  Scheduler                                |
+|  etcd                                     |
+|  Controller Manager                       |
+|  Cloud Controller Manager (Optional)      |
 +-------------------------------------------+
 ```
 
@@ -412,11 +424,11 @@ API Server
     │
 Scheduler selects Worker Node
     │
-kubelet receives instruction
+kubelet receives Pod specification
     │
 Container Runtime starts containers
     │
-kube-proxy configures networking
+Pod Networking is configured
     │
 Pod becomes Ready
 ```
@@ -429,30 +441,36 @@ The complete request flow can be summarized as follows.
 
 ```text
 User
-  │
-  │ kubectl apply
-  ▼
+   │
+   │ kubectl apply
+   ▼
 API Server
-  │
-  ▼
+   │
+   ▼
 Scheduler
-  │
-  ▼
+   │
+   ▼
+Data Plane
+   │
+   ▼
 Worker Node
-  │
-  ▼
+   │
+   ▼
 kubelet
-  │
-  ▼
+   │
+   ▼
 Container Runtime
-  │
-  ▼
+   │
+   ▼
 Pod Running
-  │
-  ▼
+   │
+   ▼
 kube-proxy
-  │
-  ▼
+   │
+   ▼
+Service Traffic
+   │
+   ▼
 Application Accessible
 ```
 
@@ -462,60 +480,62 @@ This flow represents the lifecycle of a Pod from deployment to execution.
 
 ### Q1. What are the two major parts of a Kubernetes cluster?
 
-**Answer**
+**Answer:**
 
-* Control Plane
-* Worker Nodes (Data Plane)
+- Control Plane
+- Data Plane
+
+The Data Plane consists of Worker Nodes that execute application workloads.
 
 ### Q2. What is the responsibility of kubelet?
 
-**Answer**
+**Answer:**
 
-The kubelet runs on every Worker Node, creates Pods, monitors their health, and communicates with the Control Plane.
+The kubelet runs on every Worker Node, ensures that the containers described in Pod specifications are running and healthy, and communicates with the Control Plane through the Kubernetes API.
 
 ### Q3. What is the purpose of kube-proxy?
 
-**Answer**
+**Answer:**
 
 kube-proxy manages networking for Pods and Services, enabling communication and basic load balancing.
 
 ### Q4. Why does Kubernetes need a Scheduler?
 
-**Answer**
+**Answer:**
 
 The Scheduler determines the most suitable Worker Node for a new Pod based on resource availability and scheduling policies.
 
 ### Q5. What is etcd?
 
-**Answer**
+**Answer:**
 
 etcd is Kubernetes' distributed key-value datastore that stores the cluster's configuration and current state.
 
 ### Q6. What is the role of the API Server?
 
-**Answer**
+**Answer:**
 
 The API Server is the entry point for all Kubernetes operations. Every request to create, update, or delete resources passes through it.
 
 ### Q7. What is the purpose of the Controller Manager?
 
-**Answer**
+**Answer:**
 
 It runs Kubernetes controllers that continuously reconcile the actual cluster state with the desired state, such as maintaining the correct number of Pod replicas.
 
 ### Q8. When is the Cloud Controller Manager used?
 
-**Answer**
+**Answer:**
 
 It is used when Kubernetes runs on cloud platforms to integrate with cloud services such as load balancers, storage, and networking.
 
 ## Key Takeaways
 
-* Kubernetes architecture is divided into the **Control Plane** and **Worker Nodes**.
-* Worker Nodes execute workloads using **kubelet**, **kube-proxy**, and a **Container Runtime**.
-* The Control Plane manages the cluster through the **API Server**, **Scheduler**, **etcd**, **Controller Manager**, and **Cloud Controller Manager**.
-* Every Kubernetes request starts with the API Server and ends with Pods running on Worker Nodes.
-* Understanding the architecture provides the foundation for learning advanced Kubernetes concepts.
+- Kubernetes architecture is divided into the **Control Plane** and **Data Plane**.
+- The **Data Plane consists of Worker Nodes** that execute application workloads using **kubelet**, **kube-proxy**, and a **Container Runtime**.
+- The Control Plane manages the cluster through the **API Server**, **Scheduler**, **etcd**, **Controller Manager**, and **Cloud Controller Manager**.
+- Kubernetes requests are processed through the API Server and workloads ultimately run on Worker Nodes in the Data Plane.
+- Understanding the architecture provides the foundation for learning advanced Kubernetes concepts.
 
 ## Next Section
 
