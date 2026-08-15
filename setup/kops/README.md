@@ -26,8 +26,8 @@
 19. [Cost and Cleanup](#19-cost-and-cleanup)
 20. [Troubleshooting](#20-troubleshooting)
 21. [Production Considerations](#21-production-considerations)
-22. [Official Documentation](#22-official-documentation)
 
+- [Official Documentation](#official-documentation)
 - [Final Takeaways](#final-takeaways)
 
 ## 1. Introduction
@@ -415,7 +415,7 @@ Example:
 
 ```bash
 aws s3api create-bucket \
-  --bucket kops-sachin-cluster-state-store \
+  --bucket kops-demo-cluster-state-store \
   --region us-east-1
 ```
 
@@ -552,7 +552,7 @@ Example:
 ```bash
 kops create cluster \
   --name=demok8scluster.k8s.local \
-  --state=s3://kops-sachin-cluster-state-store \
+  --state=s3://kops-demo-cluster-state-store \
   --zones=us-east-1a \
   --node-count=1 \
   --node-size=t2.micro \
@@ -636,7 +636,7 @@ Example:
 ```bash
 kops update cluster \
   demok8scluster.k8s.local \
-  --state=s3://kops-sachin-cluster-state-store \
+  --state=s3://kops-demo-cluster-state-store \
   --yes
 ```
 
@@ -673,7 +673,7 @@ Example:
 ```bash
 kops validate cluster \
   demok8scluster.k8s.local \
-  --state=s3://kops-sachin-cluster-state-store
+  --state=s3://kops-demo-cluster-state-store
 ```
 
 > A successful validation indicates that the Kubernetes cluster is operational.
@@ -803,7 +803,7 @@ Example:
 ```bash
 kops delete cluster \
   demok8scluster.k8s.local \
-  --state=s3://kops-sachin-cluster-state-store \
+  --state=s3://kops-demo-cluster-state-store \
   --yes
 ```
 
@@ -1038,37 +1038,17 @@ Plan for:
 * KOPS state-store protection
 * Disaster recovery procedures
 
-## 22. Official Documentation
+## Official Documentation
 
 The following documentation should be used as the primary reference when implementing KOPS and Kubernetes in real environments.
 
-#### KOPS
-
-[KOPS Official Documentation](https://kops.sigs.k8s.io/)
-
-#### Kubernetes
-
-[Kubernetes Official Documentation](https://kubernetes.io/docs/)
-
-#### kubectl
-
-[kubectl Official Documentation](https://kubernetes.io/docs/reference/kubectl/)
-
-#### AWS CLI
-
-[AWS CLI Official Documentation](https://docs.aws.amazon.com/cli/?)
-
-#### Amazon EC2
-
-[Amazon EC2 Documentation](https://docs.aws.amazon.com/ec2/?)
-
-#### Amazon S3
-
-[Amazon S3 Documentation](https://docs.aws.amazon.com/s3/)
-
-#### Amazon Route 53
-
-[Amazon Route 53 Documentation](https://docs.aws.amazon.com/route53/)
+* **KOPS Documentation** — [KOPS Official Documentation](https://kops.sigs.k8s.io/)
+* **KOPS GitHub Repository** — [KOPS on GitHub](https://github.com/kubernetes/kops)
+* **Kubernetes Documentation** — [Kubernetes Documentation](https://kubernetes.io/docs/)
+* **kubectl Documentation** — [kubectl Documentation](https://kubernetes.io/docs/reference/kubectl/)
+* **AWS CLI Documentation** — [AWS CLI Documentation](https://docs.aws.amazon.com/cli/)
+* **Amazon S3 Documentation** — [Amazon S3 Documentation](https://docs.aws.amazon.com/s3/)
+* **Amazon Route 53 Documentation** — [Amazon Route 53 Documentation](https://docs.aws.amazon.com/route53/)
 
 ## Final Takeaways
 
