@@ -1,7 +1,7 @@
 
-## 📄 `01-introduction-to-kubernetes.md`
-
 ## Introduction to Kubernetes — Why Kubernetes Exists
+
+**File:** `01-introduction-to-kubernetes.md`
 
 ## Table of Contents
 
@@ -426,11 +426,11 @@ Kubernetes runs as a cluster.
 Example:
 
 ```
-        Kubernetes Cluster
+       Kubernetes Cluster
 
 
-        Master Node
-              |
+          Master Node
+               |
    ---------------------------
   |            |              |
 Node 1       Node 2         Node 3
@@ -673,10 +673,10 @@ A Kubernetes cluster contains:
      Control Plane
      (Master Node)
            |
-   --------------------
-  |        |          |
-Worker   Worker     Worker
-Node     Node       Node
+   -----------------
+  |        |        |
+Worker   Worker   Worker
+Node     Node     Node
 ```
 
 ### Control Plane Responsibilities
@@ -700,27 +700,27 @@ Worker nodes run:
 
 The Kubernetes journey starts with:
 
-#### Pods
+### Pods
 
 The smallest deployable unit in Kubernetes.
 
-#### Deployments
+### Deployments
 
 Manage application replicas.
 
-#### Services
+### Services
 
 Expose applications.
 
-#### ReplicaSets
+### ReplicaSets
 
 Maintain desired number of pods.
 
-#### Ingress Controllers
+### Ingress Controllers
 
 Manage external traffic.
 
-#### Admission Controllers
+### Admission Controllers
 
 Control Kubernetes API requests.
 
@@ -830,7 +830,3 @@ The four major problems Kubernetes solves:
 4. Enterprise production requirements
 
 Once these foundations are clear, learning Kubernetes components becomes much easier.
-
-## Next Section
-
-**[Kubernetes Architecture — Understanding the Control Plane and Data Plane](02-kubernetes-architecture.md)**
