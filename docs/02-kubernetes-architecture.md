@@ -1,7 +1,7 @@
 
-## 📄 `02-kubernetes-architecture.md`
-
 ## Kubernetes Architecture — Understanding the Control Plane and Data Plane
+
+**File:** `02-kubernetes-architecture.md`
 
 ## Table of Contents
 
@@ -126,12 +126,12 @@ A Kubernetes cluster is divided into two major parts:
        +--------------+          +--------------+
        | Control Plane|          |   Data Plane |
        +--------------+          +--------------+
-                                      |
-                         +------------+------------+
-                         |            |            |
-                    +---------+  +---------+  +---------+
-                    |Worker 1 |  |Worker 2 |  |Worker N |
-                    +---------+  +---------+  +---------+
+                                        |
+                           +------------+------------+
+                           |            |            |
+                      +---------+  +---------+  +---------+
+                      |Worker 1 |  |Worker 2 |  |Worker N |
+                      +---------+  +---------+  +---------+
 ```
 
 The cluster consists of:
@@ -536,9 +536,3 @@ It is used when Kubernetes runs on cloud platforms to integrate with cloud servi
 - The Control Plane manages the cluster through the **API Server**, **Scheduler**, **etcd**, **Controller Manager**, and **Cloud Controller Manager**.
 - Kubernetes requests are processed through the API Server and workloads ultimately run on Worker Nodes in the Data Plane.
 - Understanding the architecture provides the foundation for learning advanced Kubernetes concepts.
-
-## Next Section
-
-**[Kubernetes Cluster Provisioning with KOPS on AWS](03-kubernetes-cluster-provisioning-with-kops-on-aws.md)**
-
-*Kubernetes in Production — Cluster Lifecycle Management, Kubernetes Distributions, and Production Installation*
